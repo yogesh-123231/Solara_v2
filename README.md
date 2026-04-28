@@ -12,7 +12,7 @@ Built using the MERN stack, Solara delivers a clean, responsive, and premium sho
 
 ## 🚀 Live Demo
 
-👉 https://solara-wine-iota.vercel.app/
+👉 (https://solara-v2.vercel.app/)
 
 ---
 
