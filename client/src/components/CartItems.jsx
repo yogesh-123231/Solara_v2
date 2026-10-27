@@ -13,7 +13,6 @@ const CartItems = ({ cartId, data, qty, size, deleteItem, updateData }) => {
   const firstUpdate = useRef(true);
   useEffect(() => {
     const handler = setTimeout(() => {
-      console.log("debounce");
       if (firstUpdate.current) {
         firstUpdate.current = false;
         return;
@@ -37,7 +36,6 @@ const CartItems = ({ cartId, data, qty, size, deleteItem, updateData }) => {
           },
         }
       );
-      console.log(response.data);
       updateData(response.data.cart);
       // if (response.data.success === true) {
       toast.success("Quantity updated successfully");

@@ -16,11 +16,11 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   useEffect(() => {
+    if (!slug) return;
     const fetchProduct = async () => {
       try {
         const response = await Axios.get(`/api/v1/product/${slug}`);
         setData(response.data.data);
-        console.log(response.data.data);
         setLoading(false);
       } catch (error) {
         toast.error(error?.response?.data?.message || "Something went wrong", {
@@ -30,7 +30,7 @@ const ProductDetails = () => {
       }
     };
     fetchProduct();
-  }, []);
+  }, [slug]);
 
   const handleAddToCart = async () => {
     try {

@@ -42,7 +42,6 @@ const CartLayout = () => {
           Authorization: token,
         },
       });
-      console.log(response.data);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -56,7 +55,6 @@ const CartLayout = () => {
         { coupon: appliedCoupon ? couponCode.toUpperCase() : "" },
         { headers: { Authorization: localStorage.getItem("jwt") } }
       );
-      console.log(response);
 
       if (response.data.url) {
         window.location.href = response.data.url;
@@ -67,7 +65,6 @@ const CartLayout = () => {
   };
   const applyCoupon = (coupon) => {
     if (!data || data.length <= 0) return toast.error("Cart is empty.");
-    console.log(coupon.toUpperCase());
     const listOfCoupons = ["SUMILSUTHAR197", "NIKE2024"];
     if (listOfCoupons.includes(coupon.toUpperCase())) {
       setCouponCode(coupon);
@@ -82,7 +79,6 @@ const CartLayout = () => {
       setLoading(false);
       return;
     }
-    console.log("cart layout");
     fetchData();
   }, []);
   if (loading) return <TriangleLoader height="500px" />;

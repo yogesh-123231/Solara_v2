@@ -21,7 +21,6 @@ const MyOrders = () => {
           Authorization: localStorage.getItem("jwt"),
         },
       });
-      console.log(response.data.orders);
       setData(response.data.orders);
       setLoading(false);
     } catch (error) {
@@ -39,12 +38,6 @@ const MyOrders = () => {
   };
   const submitReview = async (review, productId, orderId) => {
     try {
-      console.log({
-        rating: review.rating,
-        review: review.opinion,
-        productId,
-        orderId,
-      });
       const response = await Axios.put(
         "/api/v1/product/review",
         { rating: review.rating, review: review.opinion, productId, orderId },

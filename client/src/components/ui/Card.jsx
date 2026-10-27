@@ -39,13 +39,13 @@ const Card = (data) => {
           onClose={() => setShowModal((prev) => !prev)}
         />
       )}
-      <Link to={`/product/${data.slug}`} style={{ textDecoration: "none" }}>
+      <Link to={data.slug ? `/product/${data.slug}` : "/products"} style={{ textDecoration: "none" }}>
         <div className="image-div">
           <img src={data.image} alt="image" height="240px" loading="lazy" />
         </div>
       </Link>
       <div className="desc">
-        <Link to={`/product/${data.slug}`} style={{ textDecoration: "none" }}>
+        <Link to={data.slug ? `/product/${data.slug}` : "/products"} style={{ textDecoration: "none" }}>
           <h5>{data.brand}</h5>
           <h6>{toTitleCase(data.name)}</h6>
         </Link>

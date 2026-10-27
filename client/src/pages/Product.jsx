@@ -83,7 +83,6 @@ const Product = () => {
             },
           })
         );
-        console.log(response.data);
       } catch (error) {
         if (error?.name !== "CanceledError") {
           console.log(error);

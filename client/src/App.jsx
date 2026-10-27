@@ -31,17 +31,17 @@ const UpdateProducts = lazy(() => import("./pages/UpdateProducts"));
 const BrandList = lazy(() => import("./pages/BrandList"));
 const CategoryList = lazy(() => import("./pages/CategoryList"));
 
+// Defined outside App to avoid re-creating the component on every App render
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 const App = () => {
   const { setAuth } = useAuth();
-  const ScrollToTop = () => {
-    const { pathname } = useLocation();
-    console.log("ScrollToTop");
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [pathname]);
-
-    return null;
-  };
   useEffect(() => {
     const rememberedUserToken = localStorage.getItem("jwt") || "";
     const rememberedAuthUser = JSON.parse(
