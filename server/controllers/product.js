@@ -88,23 +88,26 @@ const getProducts = asyncErrorHandler(async (req, res, next) => {
 });
 
 const getProduct = asyncErrorHandler(async (req, res, next) => {
-  const { slug } = req.params;
+  const identifier = req.params.slug?.trim();
+  if (!identifier || ["undefined", "null"].includes(identifier.toLowerCase())) {
+    return next(new errorHandler("A valid product ID or slug is required", 400));
+  }
 
   let productExists = null;
-
-  // If the param looks like a MongoDB ObjectId, try findById first
-  const isObjectId = /^[a-f\d]{24}$/i.test(slug);
+  const isObjectId = /^[a-f\d]{24}$/i.test(identifier);
   if (isObjectId) {
-    productExists = await product.findOne({ _id: slug, isActive: true });
-  }
-
-  // Fall back to slug-based lookup
-  if (!productExists) {
-    productExists = await product.findOne({ slug, isActive: true });
+    productExists = await product.findById(identifier);
+    if (productExists && !productExists.isActive) {
+      productExists = null;
+    }
   }
 
   if (!productExists) {
-    return next(new errorHandler("No such product exist", 404));
+    productExists = await product.findOne({ slug: identifier, isActive: true });
+  }
+
+  if (!productExists) {
+    return next(new errorHandler("Product not found", 404));
   }
 
   return res.status(200).json({
