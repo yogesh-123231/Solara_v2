@@ -9,6 +9,15 @@ const Card = (data) => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const slug = typeof data.slug === "string" ? data.slug.trim() : "";
+  const id = typeof data._id === "string" ? data._id.trim() : "";
+  const isUsableIdentifier = (value) =>
+    value && !["undefined", "null"].includes(value.toLowerCase());
+  const productPath = isUsableIdentifier(slug)
+    ? `/product/${slug}`
+    : isUsableIdentifier(id)
+      ? `/product/${id}`
+      : "/products";
   const toTitleCase = (word) => {
     let letterCapitalizer = (match) =>
       match.substring(0, 1).toUpperCase() + match.substring(1);
@@ -39,13 +48,13 @@ const Card = (data) => {
           onClose={() => setShowModal((prev) => !prev)}
         />
       )}
-      <Link to={data.slug ? `/product/${data.slug}` : "/products"} style={{ textDecoration: "none" }}>
+      <Link to={productPath} style={{ textDecoration: "none" }}>
         <div className="image-div">
           <img src={data.image} alt="image" height="240px" loading="lazy" />
         </div>
       </Link>
       <div className="desc">
-        <Link to={data.slug ? `/product/${data.slug}` : "/products"} style={{ textDecoration: "none" }}>
+        <Link to={productPath} style={{ textDecoration: "none" }}>
           <h5>{data.brand}</h5>
           <h6>{toTitleCase(data.name)}</h6>
         </Link>

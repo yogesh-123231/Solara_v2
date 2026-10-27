@@ -90,7 +90,19 @@ const getProducts = asyncErrorHandler(async (req, res, next) => {
 const getProduct = asyncErrorHandler(async (req, res, next) => {
   const { slug } = req.params;
 
-  const productExists = await product.findOne({ slug, isActive: true });
+  let productExists = null;
+
+  // If the param looks like a MongoDB ObjectId, try findById first
+  const isObjectId = /^[a-f\d]{24}$/i.test(slug);
+  if (isObjectId) {
+    productExists = await product.findOne({ _id: slug, isActive: true });
+  }
+
+  // Fall back to slug-based lookup
+  if (!productExists) {
+    productExists = await product.findOne({ slug, isActive: true });
+  }
+
   if (!productExists) {
     return next(new errorHandler("No such product exist", 404));
   }
